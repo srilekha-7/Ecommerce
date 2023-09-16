@@ -42,6 +42,12 @@ function Cart(props) {
     }
     setReceivedCartData(tempCartData);
   };
+  const onHandleRemove = (id) => {
+    const cartAfterOnHandleRemove = receivedCartData.filter(
+      (eachCart) => eachCart.id !== id
+    );
+    setReceivedCartData(cartAfterOnHandleRemove);
+  };
 
   useEffect(() => {
     const cartFinalUpdate = [...receivedCartData];
@@ -55,8 +61,10 @@ function Cart(props) {
   console.log(receivedCartData);
 
   useEffect(() => {
+    let subTotalSum = 0;
     for (let i = 0; i < receivedCartData.length; i++)
-      setSubTotal(subTotal + receivedCartData[i].price);
+      subTotalSum = subTotalSum + receivedCartData[i].price;
+    setSubTotal(subTotalSum);
   }, [receivedCartData]);
   console.log(subTotal);
   return (
@@ -189,6 +197,12 @@ function Cart(props) {
                         </button>
                       </div>
                     </div>
+                    <button
+                      className="cart"
+                      onClick={() => onHandleRemove(eachCartEl.id)}
+                    >
+                      Remove from cart
+                    </button>
                   </div>
                 </div>
               );
